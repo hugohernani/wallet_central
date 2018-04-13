@@ -85,7 +85,7 @@ module WalletCentral
 
     def set_variables(attributes)
       attributes.each do |key, val|
-        instance_variable_set :"@#{key}", val
+        instance_variable_set(:"@#{key}", val) if respond_to?(key)
       end
     end
   end
