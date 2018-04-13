@@ -7,5 +7,9 @@ module WalletCentral
     def accounts
       Account.accounts
     end
+
+    def wallets
+      Wallet.wallets
+    end
   end
 end
