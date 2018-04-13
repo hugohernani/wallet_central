@@ -4,22 +4,32 @@ module WalletCentral
   class Wallet
     class << self
       extend Forwardable
-      delegate [:create, :find, :find!, :all, :destroy, :destroy!] => :wallets
+
+      def wallets_for(account)
+        identifier = account.is_a?(Account) ? account.name : account
+        @wallets ||= Hash.new
+        @wallets[identifier] ||= Set.new(identifier)
+      end
 
       def wallets
-        @wallets ||= Set.new
+        @wallets
       end
     end
 
     class Set
       extend Forwardable
-      delegate [:each, :map] => :all
+      delegate [:each, :select, :reject, :map] => :all
+
+      def initialize(identifier)
+        @identifier = identifier
+      end
 
       def create(attributes)
         Wallet.new(attributes).tap do |wallet|
-          finder_attr = attributes.is_a?(Hash) ? attributes[:currency] : attributes.first
-          fail DuplicateWalletError, "There is an wallet with this currency: #{finder_attr}" if find(finder_attr)
-          collection[finder_attr] = wallet
+          wallet.account_identifier = @identifier
+          currency = attributes[:currency]
+          fail WalletCentral::DuplicateWalletError, "There is an wallet with this currency: #{currency}" if find(currency)
+          collection[currency] = wallet
         end
       end
 
@@ -43,12 +53,13 @@ module WalletCentral
 
       def find!(currency)
         find(currency).tap do |wallet|
-          fail WalletNotFoundError, "Wallet with currency #{currency} does not exist" unless wallet
+          if wallet.nil?
+            fail WalletCentral::WalletNotFoundError, "Wallet with currency #{currency} does not exist"
+          end
         end
       end
 
       private
-
       def collection
         @collection ||= Hash.new
       end
@@ -58,28 +69,24 @@ module WalletCentral
       end
     end
 
-    attr_accessor :currency, :amount
+    attr_accessor :currency, :amount, :account_identifier
+    attr_reader :account
 
     def initialize(attributes)
       ensure_required_args!(attributes)
-      if attributes.is_a?(Hash)
-        set_variables(attributes)
-      else
-        @currency, @amount = [attributes.first, attributes.second]
-      end
+      set_variables(attributes)
     end
 
     def destroy
-      self.class.destroy(currency)
+      self.class.wallets_for(account_identifier).destroy(currency)
     end
 
     private
 
     def ensure_required_args!(args)
-      extracted_args = args.is_a?(Hash) ? args.keys : args
-      missing_args = [:currency, :amount] - extracted_args
+      missing_args = [:currency, :amount] - args.keys
       unless missing_args.empty?
-        fail MissingRequiredParamsError, "Missing required params for #{self.class}. Given: #{args}. Missing: #{missing_args}"
+        fail WalletCentral::MissingRequiredParamsError, "Missing required params for #{self.class}. Given: #{args}. Missing: #{missing_args}"
       end
     end
 

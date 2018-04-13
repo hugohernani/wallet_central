@@ -17,7 +17,7 @@ module WalletCentral
 
       def create(attributes)
         Account.new(attributes).tap do |account|
-          finder_attr = attributes.is_a?(Hash) ? attributes[:name] : attributes.first
+          finder_attr = attributes[:name]
           fail DuplicateAccountError, "There is an account with: #{finder_attr}" if find(finder_attr)
           collection[finder_attr] = account
         end
@@ -62,19 +62,30 @@ module WalletCentral
 
     def initialize(attributes)
       ensure_required_args!(attributes)
-      @name = attributes.is_a?(Hash) ? attributes[:name] : attributes.first
+      @name = attributes[:name]
+    end
+
+    def identifier
+      name
+    end
+
+    def wallets
+      @wallets ||= Wallet.wallets_for(self)
     end
 
     def destroy
       self.class.destroy(name)
+      destroyed = true
+      wallets.each{|w| w.destroy }
     end
 
     private
 
     # It does simply check for name parameter
     def ensure_required_args!(args)
-      valid = (args.is_a?(Hash) ? args.key?(:name) : args.first == String)
-      fail MissingRequiredParamsError, "Missing required params for #{self.class}. Given: #{args}" unless valid
+      if (missing_args = [:name] - args.keys).any?
+        fail MissingRequiredParamsError, "Missing required params for #{self.class}. Given: #{args}. Missing: #{missing_args}"
+      end
     end
   end
 end

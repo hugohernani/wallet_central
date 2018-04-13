@@ -16,7 +16,7 @@ module WalletCentral
 
         before { described_class.create(attributes) }
 
-        it 'raises a missing param error' do
+        it 'raises a duplicate account error' do
           expect{described_class.create(attributes)}.to raise_error(DuplicateAccountError)
         end
       end

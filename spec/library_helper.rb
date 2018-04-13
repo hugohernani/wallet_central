@@ -1,4 +1,5 @@
 require 'spec_helper'
+require "pry"
 
 LIBRARY_PATH = File.expand_path('../../lib', __FILE__)
 Dir[File.join(LIBRARY_PATH, '**', '*.rb')].each{|f| require f }
