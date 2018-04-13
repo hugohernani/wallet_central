@@ -5,6 +5,6 @@ Dir[File.join(LIBRARY_PATH, '**', '*.rb')].each{|f| require f }
 Dir[File.join(LIBRARY_PATH, 'spec', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
-  # Clear accounts on each test
   config.before(:each) { WalletCentral::Account.instance_variable_set :@accounts, nil }
+  config.before(:each) { WalletCentral::Wallet.instance_variable_set :@wallets, nil }
 end
