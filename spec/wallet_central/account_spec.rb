@@ -65,7 +65,8 @@ module WalletCentral
         before { described_class.create(attributes) }
 
         it 'returns true' do
-          expect(described_class.destroy('Jon')).to be_truthy end
+          expect(described_class.destroy('Jon')).to be_truthy
+        end
       end
     end
     describe '.destroy!' do
