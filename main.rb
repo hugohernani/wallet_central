@@ -1,5 +1,7 @@
 ## API Usage example
 
+require_relative 'lib/wallet_central'
+
 # WalletCentral.initialize # load and initialize predefined account/wallets
 # WalletCentral.accounts
 # WalletCentral.wallets

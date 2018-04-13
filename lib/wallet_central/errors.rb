@@ -1,3 +1,5 @@
 module WalletCentral
-  # TODO Add Error classes
+  class MissingRequiredParamsError < RuntimeError; end
+  class DuplicateAccountError < RuntimeError; end
+  class AccountNotFoundError < RuntimeError; end
 end
