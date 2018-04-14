@@ -2,19 +2,19 @@
 
 require_relative 'lib/wallet_central'
 
-# WalletCentral.initialize # load and initialize predefined account/wallets
-# WalletCentral.accounts
-# WalletCentral.wallets
+WalletCentral.seed # load and initialize predefined account/wallets
+WalletCentral.accounts
+WalletCentral.wallets
 
-# jon_account =  WalletCentral.accounts.find('jon')
-# jon_wallets = jon_account.wallets
-# jon_usd_wallet = jon_account.wallets.find('USD')
+jon_account =  WalletCentral.accounts.find('jon')
+jon_wallets = jon_account.wallets
+jon_usd_wallet = jon_account.wallets.find('USD')
 
-# littefinger_account =  WalletCentral.accounts.find('littefinger')
-# littefinger_wallets = jon_account.wallets
-# littefinger_eur_wallet = jon_account.wallets.find('EUR')
+littefinger_account =  WalletCentral.accounts.find('littefinger')
+littefinger_wallets = jon_account.wallets
+littefinger_eur_wallet = jon_account.wallets.find('EUR')
 
-# WalletCentral.registry_for(jon_account).as_json # Print out registry at account level
+# WalletCentral.registry_for(jon_account, WalletCentral::JSONRenderer.new) # Print out registry at account level
 # WalletCentral.registry_for(littefinger_eur_wallet).as_json # Print out registry at wallet level
 # WalletCentral.transfer(jon_usd_wallet, littefinger_eur_wallet, 'USD', 100.0)
 
