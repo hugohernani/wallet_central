@@ -48,6 +48,10 @@ module WalletCentral
         collection.values
       end
 
+      def exists?(currency)
+        !_find(currency).nil?
+      end
+
       def find(currency)
         _find(currency)
       end

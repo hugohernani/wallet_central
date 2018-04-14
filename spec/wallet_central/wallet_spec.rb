@@ -49,6 +49,13 @@ module WalletCentral
         end
       end
     end
+    describe '.exists?' do
+      context 'when wallet does not exist' do
+        it 'returns nil' do
+          expect(subject.exists?('unknown_wallet')).to be_falsey
+        end
+      end
+    end
     describe '.find!' do
       context 'when wallet does not exist' do
         it 'raises a Wallet Not Found error' do
