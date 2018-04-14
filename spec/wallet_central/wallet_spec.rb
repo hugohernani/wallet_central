@@ -86,5 +86,21 @@ module WalletCentral
         expect(wallet.destroy).to be_truthy
       end
     end
+
+    describe '#credit' do
+      it 'increases the quantity in amount field' do
+        wallet = subject.create(currency: 'USD', amount: 200)
+        wallet.credit(100)
+        expect(wallet.amount).to eq "300.0"
+      end
+    end
+
+    describe '#debit' do
+      it 'decreases the quantity in amount field' do
+        wallet = subject.create(currency: 'USD', amount: 200)
+        wallet.debit(50)
+        expect(wallet.amount).to eq "150.0"
+      end
+    end
   end
 end

@@ -12,6 +12,8 @@ require_relative "wallet_central/render_adapters/json_adapter"
 require_relative 'wallet_central/errors'
 require_relative 'wallet_central/account'
 require_relative 'wallet_central/wallet'
+require_relative 'wallet_central/transfer'
+
 
 module WalletCentral
   class << self
@@ -35,6 +37,10 @@ module WalletCentral
       renderer = options.fetch(:renderer, Renderers::HashRenderer.new)
       result = resource.render(renderer)
       options[:adapter] ? options[:adapter].perform(result) : result
+    end
+
+    def transfer(giver_wallet, taker_wallet, amount, options = {})
+      Transfer.transfer(giver_wallet, taker_wallet, amount, options[:currency])
     end
   end
 end

@@ -82,6 +82,14 @@ module WalletCentral
       self.class.wallets_for(account_identifier).destroy(currency)
     end
 
+    def credit(amount)
+      @amount = (BigDecimal.new(@amount) + amount).to_s('F')
+    end
+
+    def debit(amount)
+      @amount = (BigDecimal.new(@amount) - amount).to_s('F')
+    end
+
     def render(renderer)
       Hash[*renderer.render(self, [:currency, :amount]).values]
     end
