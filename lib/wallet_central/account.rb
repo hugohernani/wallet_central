@@ -5,7 +5,7 @@ module WalletCentral
 
     class << self
       extend Forwardable
-      delegate [:create, :find, :find!, :all, :destroy, :destroy!] => :accounts
+      delegate [:create, :exists?, :find, :find!, :all, :destroy, :destroy!] => :accounts
 
       def accounts
         @accounts ||= Set.new
@@ -36,6 +36,10 @@ module WalletCentral
 
       def all
         collection.values
+      end
+
+      def exists?(name)
+        !_find(name).nil?
       end
 
       def find(name)

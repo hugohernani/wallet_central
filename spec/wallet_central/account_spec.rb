@@ -45,6 +45,13 @@ module WalletCentral
         end
       end
     end
+    describe '.exists?' do
+      context 'when account does not exist' do
+        it 'returns nil' do
+          expect(described_class.exists?('unknown_account')).to be_falsey
+        end
+      end
+    end
     describe '.find!' do
       context 'when account does not exist' do
         it 'raises a Account Not Found error' do
