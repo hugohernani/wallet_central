@@ -2,6 +2,7 @@ require 'forwardable'
 
 module WalletCentral
   class Wallet
+
     class << self
       extend Forwardable
 
@@ -79,6 +80,10 @@ module WalletCentral
 
     def destroy
       self.class.wallets_for(account_identifier).destroy(currency)
+    end
+
+    def render(renderer)
+      Hash[*renderer.render(self, [:currency, :amount]).values]
     end
 
     private

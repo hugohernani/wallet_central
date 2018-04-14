@@ -14,8 +14,9 @@ littefinger_account =  WalletCentral.accounts.find('littefinger')
 littefinger_wallets = jon_account.wallets
 littefinger_eur_wallet = jon_account.wallets.find('EUR')
 
-# WalletCentral.registry_for(jon_account, WalletCentral::JSONRenderer.new) # Print out registry at account level
-# WalletCentral.registry_for(littefinger_eur_wallet).as_json # Print out registry at wallet level
+WalletCentral.registry_for(jon_account) # Print out registry at account level
+WalletCentral.registry_for(jon_account, adapter: WalletCentral::RenderAdapters::JsonAdapter) # Print out registry at account level to json
+WalletCentral.registry_for(littefinger_eur_wallet) # Print out registry at wallet level
 # WalletCentral.transfer(jon_usd_wallet, littefinger_eur_wallet, 'USD', 100.0)
 
 ## The following transaction actions don't actually function like this in real world.

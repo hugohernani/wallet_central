@@ -2,6 +2,7 @@ require 'forwardable'
 
 module WalletCentral
   class Account
+
     class << self
       extend Forwardable
       delegate [:create, :find, :find!, :all, :destroy, :destroy!] => :accounts
@@ -77,6 +78,13 @@ module WalletCentral
       self.class.destroy(name)
       destroyed = true
       wallets.each{|w| w.destroy }
+    end
+
+    def render(renderer)
+      result = renderer.render(self, [:name])
+      # [{USD => 20,32}, {WED => 100}]
+      result[:wallets] = wallets.map{ |wallet| wallet.render(renderer) }.reduce(Hash.new, :merge)
+      result
     end
 
     private
