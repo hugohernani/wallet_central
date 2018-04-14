@@ -28,7 +28,7 @@ module WalletCentral
     def seed
       CSV.foreach(File.expand_path('../data/wallets.csv', __FILE__), headers: true, return_headers: false) do |row|
         account = accounts.find(row[0]) || accounts.create(name: row[0])
-        account.wallets.create(currency: row[1], amount: row[2])
+        account.wallets.create(currency: row[1], amount: row[2]) unless account.wallets.exists?(row[1])
       end
       puts "The data was seeded" if wallets.any?
     end
