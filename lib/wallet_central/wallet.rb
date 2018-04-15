@@ -74,7 +74,7 @@ module WalletCentral
       end
 
       def _find(currency)
-        collection[currency]
+        collection[currency.upcase]
       end
     end
 
@@ -110,11 +110,12 @@ module WalletCentral
       unless missing_args.empty?
         fail WalletCentral::MissingRequiredParamsError, "Missing required params for #{self.class}. Given: #{args}. Missing: #{missing_args}"
       end
+      fail CurrencyNotSupportedError unless ['USD','EUR','BRL'].include?(args[:currency])
     end
 
     def set_variables(attributes)
       attributes.each do |key, val|
-        instance_variable_set(:"@#{key}", val) if respond_to?(key)
+        instance_variable_set(:"@#{key}", val.upcase) if respond_to?(key)
       end
     end
   end
