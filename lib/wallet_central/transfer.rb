@@ -32,7 +32,6 @@ module WalletCentral
       end
 
       private
-      # usd, #eur, nil
       def verify_allowed_currencies!(giver_currency, taker_currency, currency)
         currency = currency || taker_currency
         fail CurrencyNotSupportedError, "Currency #{currency} is not supported." unless ALLOWED_CURRENCIES.include?(currency.upcase)

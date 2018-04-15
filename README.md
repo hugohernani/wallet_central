@@ -29,7 +29,7 @@ account_manager.destroy('jack')
 
 ### Wallet
 Wallets operations are wrapped into `WalletCentral.wallets`.
-After loading this wrapper operations become available like *creating*, getting *all* wallets, being able to *find* a specific wallet. Although this function similar to `Account` wrapper. Wallet manager function as a subsystem of `Account`. This means that it needs an account to function properly.
+After loading this wrapper operations become available like *creating*, getting *all* wallets, being able to *find* a specific wallet. Although this functions similar to `Account` wrapper. Wallet manager functions as a subsystem of `Account`. This means that it needs an account to work properly.
 
 See examples:
 ```ruby
@@ -45,7 +45,7 @@ WalletCentral.wallets # load all existent wallets
 ```
 
 ### Registry
-The `WalletCentral` system allows data to be printed out as a hash or as json
+The `WalletCentral` system allows data to be printed out as a hash or as json.
 
 Examples:
 ```ruby
@@ -54,18 +54,18 @@ WalletCentral.registry_for(jon_account) # At account level
 WalletCentral.registry_for(jon_account, adapter: WalletCentral::RenderAdapters::JsonAdapter.new) # At account level to json
 # "{\"name\":\"jon\",\"wallets\":{\"eur\":\"868.65\",\"usd\":\"463.39\"}}"
 WalletCentral.registry_for(littlefinger_brl_wallet) # At wallet level
-# {"BRL"=>"1567.04" }
+# {"brl"=>"1567.04" }
 
 ```
 Right now the system only allows `JsonAdapter` and `HashRenderer`.
 
 ### Transfer
-The system allows value to be transfered between wallets.
-The `currency` arg is optional. In this case the wallet to be transfered the value to will have its currency as the target in case of conversion.
+The system allows value (`amount`) to be transfered between wallets.
+The `currency` arg is optional. In this case, the wallet to be transfered the value to, will have its currency as the target in case of conversion.
 
 Example:
 ```ruby
-WalletCentral.transfer(jon_usd_wallet, littlefinger_eur_wallet, 100.0, currency: WalletCentral::Transfer::BRL_CURRENCY)
+WalletCentral.transfer(jon_usd_wallet, littlefinger_brl_wallet, 100.0, currency: WalletCentral::Transfer::BRL_CURRENCY)
 ```
 The following constants are available to be used:
 ```ruby

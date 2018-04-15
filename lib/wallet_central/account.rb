@@ -94,7 +94,6 @@ module WalletCentral
 
     def render(renderer)
       result = renderer.render(self, [:name])
-      # [{USD => 20,32}, {WED => 100}]
       result[:wallets] = wallets.map{ |wallet| wallet.render(renderer) }.reduce(Hash.new, :merge)
       result
     end

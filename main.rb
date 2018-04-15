@@ -17,7 +17,7 @@ littlefinger_brl_wallet = littlefinger_wallets.find('BRL')
 WalletCentral.registry_for(jon_account) # Print out registry at account level
 WalletCentral.registry_for(jon_account, adapter: WalletCentral::RenderAdapters::JsonAdapter.new) # Print out registry at account level to json
 WalletCentral.registry_for(littlefinger_brl_wallet) # Print out registry at wallet level
-WalletCentral.transfer(jon_usd_wallet, littlefinger_eur_wallet, 100.0, currency: WalletCentral::Transfer::BRL_CURRENCY)
+WalletCentral.transfer(jon_usd_wallet, littlefinger_brl_wallet, 100.0, currency: WalletCentral::Transfer::BRL_CURRENCY)
 
 ## The following transaction actions don't actually function like this in real world.
 ## It was created just to point out how a reverse strategy could work
