@@ -1,7 +1,10 @@
 require 'forwardable'
+require 'securerandom'
+require_relative 'transactionable'
 
 module WalletCentral
   class Account
+    include Transactionable
 
     class << self
       extend Forwardable
@@ -63,10 +66,11 @@ module WalletCentral
       end
     end
 
-    attr_accessor :name
+    attr_accessor :id, :name
 
     def initialize(attributes)
       ensure_required_args!(attributes)
+      @id = SecureRandom.uuid
       @name = attributes[:name]
     end
 
@@ -76,6 +80,10 @@ module WalletCentral
 
     def wallets
       @wallets ||= Wallet.wallets_for(self)
+    end
+
+    def transactions
+      @transactions = Transaction.transactions_for(self)
     end
 
     def destroy

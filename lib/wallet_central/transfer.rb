@@ -15,8 +15,10 @@ module WalletCentral
         converted_amount = calculate_and_convert_if_needed(giver_wallet.currency,
                                                            amount,
                                                            currency)
-        giver_wallet.debit(amount)
-        taker_wallet.credit(converted_amount)
+        Transaction.wallet_transaction(giver_wallet, taker_wallet, amount, converted_amount) do
+          giver_wallet.debit(amount)
+          taker_wallet.credit(converted_amount)
+        end
       end
 
       def rates

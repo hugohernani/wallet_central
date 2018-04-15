@@ -13,6 +13,7 @@ require_relative 'wallet_central/errors'
 require_relative 'wallet_central/account'
 require_relative 'wallet_central/wallet'
 require_relative 'wallet_central/transfer'
+require_relative 'wallet_central/transaction'
 
 
 module WalletCentral
